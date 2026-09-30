@@ -12,9 +12,11 @@
  *                          since that's the module this lab was built
  *                          and tested against)
  *
- * This is a fresh, independent lab (not a continuation of the earlier
- * SSD1306/SH1106 OLED lab, which is parked pending different hardware).
- * It reuses only two things learned there:
+ * This is a fresh, independent lab (not a continuation of the OLED
+ * SSD1306 lab, which comes later in this series as Lab 03 - the
+ * parked-pending-different-hardware module is the separate SHARP
+ * memory display, unrelated to OLED SSD1306/SH1106).
+ * It reuses only two things learned in Lab 01 (I2C bus scanner):
  *   1. The board's I2C0 pin facts (I2C0 / GPIO1 / GPIO2).
  *   2. The bus-scan-before-talking approach (see main()), which is handy
  *      here too since these backpacks ship at either 0x27 or 0x3F

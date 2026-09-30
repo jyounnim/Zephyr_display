@@ -1,8 +1,6 @@
-# 3. SPI Basics — Why There's No "SPI Scanner"
+# 4. SPI Basics — Why There's No "SPI Scanner"
 
-> **Review note**: the original file was uploaded as `04_SPI_basics_KR.md`, but the body of the document (the "3." in the title, the `03_SPI_basics/` folder tree, section 8's "I2C scanner (Lab 1) vs. this loopback test (Lab 3)", and the closing section's "Lab 4") all consistently point to this being **Lab 3**. Renamed to `03_SPI_basics_*.md` to match, which also lines up with the Lab 01 (I2C scanner) → Lab 02 (I2C LCD) → this lab (Lab 03) sequence.
->
-> Also filled in `CMakeLists.txt` and `sample.yaml`, which were listed in the folder tree but had no content shown in the original document. The code, overlay, and custom binding were cross-checked against official Zephyr sources and left unchanged. See "Review summary" at the bottom for details.
+**[한국어 버전](readme_kr.md)**
 
 ## What this lab covers
 
@@ -40,7 +38,7 @@ This lab uses the **no-jumper-wire** version: the overlay maps MISO and MOSI ont
 
 ```
 Zephyr_display/
-└── 03_SPI_basics/
+└── 04_SPI_basics/
     ├── lab/
     │   ├── src/
     │   │   └── main.c
@@ -53,7 +51,8 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 03_SPI_basics_EN.md
+    ├── readme.md
+    └── readme_kr.md
 ```
 
 ## Devicetree Overlay
@@ -166,7 +165,7 @@ tests:
 #define LOOPBACK_NODE DT_NODELABEL(loopback_dev)
 
 static const struct spi_dt_spec loopback_spi = SPI_DT_SPEC_GET(
-    LOOPBACK_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER, 0);
+    LOOPBACK_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER);
 
 static bool spi_loopback_test(void) {
     uint8_t tx_data[8] = {0x01, 0x02, 0x03, 0x04, 0xAA, 0x55, 0xFF, 0x00};
@@ -228,12 +227,12 @@ int main(void) {
 ## Build & Run
 
 ```bash
-west build -p always -b esp32s3_devkitc/esp32s3/procpu 03_SPI_basics/lab
+west build -p always -b esp32s3_devkitc/esp32s3/procpu 04_SPI_basics/lab
 west flash
 west espressif monitor
 ```
 
-(On PowerShell, just swap the path: `west build -p always -b esp32s3_devkitc/esp32s3/procpu .\03_SPI_basics\lab\`.)
+(On PowerShell, just swap the path: `west build -p always -b esp32s3_devkitc/esp32s3/procpu .\04_SPI_basics\lab\`.)
 
 ### Expected output
 
@@ -249,7 +248,7 @@ Confirm that `Sent` and `Received` match exactly.
 ## Things to notice
 
 - Passing this test does not mean "any SPI device will now just work" - it only confirms **the bus itself (electrical signals, peripheral configuration) is sound**. Talking to a real device still requires implementing that device's own protocol correctly (which is exactly what labs 5-7 do).
-- Placing the I2C scanner (Lab 1) side by side with this loopback test (Lab 3) makes it concrete that **"these two protocols look superficially similar (clock + data), but their design philosophies are completely different"** - I2C is optimized for "discovering multiple devices on a bus," while SPI is optimized for "talking fast to a device you already know is there."
+- Placing the I2C scanner (Lab 1) side by side with this loopback test (Lab 4) makes it concrete that **"these two protocols look superficially similar (clock + data), but their design philosophies are completely different"** - I2C is optimized for "discovering multiple devices on a bus," while SPI is optimized for "talking fast to a device you already know is there."
 - Adding multiple CS lines (an array of GPIOs in the overlay's `cs-gpios`) lets you connect several SPI devices while sharing the same SCK/MOSI/MISO - use this approach in a later lab if you want to drive multiple displays at once.
 
 ## Troubleshooting
@@ -264,7 +263,7 @@ Confirm that `Sent` and `Received` match exactly.
 
 ## Next
 
-Lab 4 (`04_OLED_SSD1306_SPI`) connects a real OLED (SSD1306 in SPI mode) on top of the SPI bus verified here.
+Lab 5 (`05_OLED_SSD1306_SPI`) connects a real OLED (SSD1306 in SPI mode) on top of the SPI bus verified here.
 
 ---
 

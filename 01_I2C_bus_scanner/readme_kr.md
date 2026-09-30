@@ -1,10 +1,12 @@
 # 1. I2C Bus Scanner — Zephyr (ESP32-S3)
 
+**[English version](readme.md)**
+
 부팅 시 별도 스레드에서 I2C0을 한 번 스캔하고, ACK를 보내는 디바이스를
 찾아 `i2cdetect` 스타일의 그리드로 출력하는 예제입니다. 새 센서/디스플레이
 모듈을 보드에 연결했을 때 어떤 주소에 잡히는지 확인하는 용도로 씁니다.
-`Zephyr_display` 프로젝트의 2번(OLED I2C), 이후 SHARP/Nokia/ST7735
-실습에서 배선을 확인할 때도 계속 재사용합니다.
+`Zephyr_display` 프로젝트의 3번(OLED I2C), 이후 Nokia5110/ST7735
+등 여러 실습에서 배선을 확인할 때도 계속 재사용합니다.
 
 ## 폴더 구성
 
@@ -19,7 +21,8 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 01_I2C_bus_scanner_KR.md     # 본 문서
+    ├── readme.md                     # 영문 문서
+    └── readme_kr.md                  # 본 문서 (한글)
 ```
 
 ## I2C 버스 개념 정리
@@ -130,7 +133,7 @@ Scanning I2C0...
 Scan complete on I2C0: 1 device(s) found
 ```
 
-(위 예시는 0x3C에 SSD1306 OLED 하나만 연결된 경우입니다 — 2번 실습에서 실제로 이 상태를 만들게 됩니다)
+(위 예시는 0x3C에 SSD1306 OLED 하나만 연결된 경우입니다 — 3번 실습에서 실제로 이 상태를 만들게 됩니다)
 
 ## 관찰 포인트
 
@@ -149,4 +152,4 @@ Scan complete on I2C0: 1 device(s) found
 
 ## 다음
 
-2번 실습(`02_OLED_SSD1306_I2C`)에서 이 스캐너로 확인한 배선 위에 실제 OLED 디스플레이를 올립니다.
+3번 실습(`03_OLED_SSD1306_I2C`)에서 이 스캐너로 확인한 배선 위에 실제 OLED 디스플레이를 올립니다.

@@ -1,7 +1,7 @@
 /*
  * OLED (SSD1306, 0.96") over SPI - Zephyr, ESP32-S3
  *
- * This file is intentionally almost identical to Lab 2's main.c
+ * This file is intentionally almost identical to Lab 3's main.c
  * (I2C mode). Only the overlay changed (bus type, compatible node
  * properties) - the application code barely differs, which is the
  * point of pairing these two labs.

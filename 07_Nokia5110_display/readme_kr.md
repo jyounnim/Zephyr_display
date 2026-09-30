@@ -1,14 +1,16 @@
 # 7. Nokia 5110 (PCD8544) 모노크롬 LCD — 84x48, raw SPI
 
+**[English version](readme.md)**
+
 ## 개요
 
 보드는 **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), 프레임워크는 **Zephyr RTOS**입니다.
 
 옛날 노키아 휴대폰 액정으로 유명한 **PCD8544 컨트롤러 기반 84x48 모노크롬 LCD**("Nokia 5110" 모듈)를 raw SPI로 구동합니다. Zephyr Display/CFB 서브시스템은 쓰지 않고, 이 시리즈의 다른 랩들(SSD1306, I2C LCD, SPI 루프백)과 동일하게 애플리케이션 코드에서 직접 SPI/GPIO를 다룹니다.
 
-이 모듈은 **MISO 라인이 아예 없습니다** (write-only 디스플레이) — 그래서 3번 랩(SPI 루프백)과 달리 이번 오버레이는 MOSI/SCLK/CS만 있으면 됩니다.
+이 모듈은 **MISO 라인이 아예 없습니다** (write-only 디스플레이) — 그래서 4번 랩(SPI 루프백)과 달리 이번 오버레이는 MOSI/SCLK/CS만 있으면 됩니다.
 
-> ✅ **실기 검증 완료**: 실제 ESP32-S3-DevKitC-1 + Nokia 5110으로 확인했고, 기본 Vop(`0xB0`) 그대로 정상 표시됨(별도 대비 조정 불필요). 검증 과정에서 실제로 걸렸던 문제는 코드/오버레이가 아니라 **배선**이었습니다 — 이전에 다른 배선(다른 GPIO)으로 테스트했던 걸 그대로 재사용하다가, 이번 랩의 배선표(RST=GPIO4, DC=GPIO5, CE=GPIO10, DIN=GPIO11, CLK=GPIO12)와 실제 연결이 어긋나 있었습니다. SPI는 I2C와 달리 ACK/NACK이 없어서(3번 랩 참고) 배선이 틀려도 시리얼 로그엔 에러가 안 뜨고 그냥 "화면에 아무것도 안 보임"으로만 나타난다는 점, 기억해두면 다음 SPI 디스플레이 랩에서도 유용합니다.
+> ✅ **실기 검증 완료**: 실제 ESP32-S3-DevKitC-1 + Nokia 5110으로 확인했고, 기본 Vop(`0xB0`) 그대로 정상 표시됨(별도 대비 조정 불필요). 검증 과정에서 실제로 걸렸던 문제는 코드/오버레이가 아니라 **배선**이었습니다 — 이전에 다른 배선(다른 GPIO)으로 테스트했던 걸 그대로 재사용하다가, 이번 랩의 배선표(RST=GPIO4, DC=GPIO5, CE=GPIO10, DIN=GPIO11, CLK=GPIO12)와 실제 연결이 어긋나 있었습니다. SPI는 I2C와 달리 ACK/NACK이 없어서(4번 랩 참고) 배선이 틀려도 시리얼 로그엔 에러가 안 뜨고 그냥 "화면에 아무것도 안 보임"으로만 나타난다는 점, 기억해두면 다음 SPI 디스플레이 랩에서도 유용합니다.
 
 ## 준비물
 
@@ -129,7 +131,7 @@ project(nokia5110_lab)
 target_sources(app PRIVATE src/main.c)
 ```
 
-(3번 랩과 동일하게, 커스텀 바인딩을 쓰기 때문에 `DTS_ROOT`를 `find_package(Zephyr...)`보다 먼저 추가해야 합니다.)
+(4번 랩과 동일하게, 커스텀 바인딩을 쓰기 때문에 `DTS_ROOT`를 `find_package(Zephyr...)`보다 먼저 추가해야 합니다.)
 
 ## prj.conf
 
@@ -139,7 +141,7 @@ CONFIG_GPIO=y
 CONFIG_PRINTK=y
 ```
 
-(3번 랩에서 확인한 대로, `CONFIG_ESP32_SPIM`은 devicetree에서 SPI 노드가 켜지면 자동으로 `y`가 되므로 별도로 안 넣어도 됩니다.)
+(4번 랩에서 확인한 대로, `CONFIG_ESP32_SPIM`은 devicetree에서 SPI 노드가 켜지면 자동으로 `y`가 되므로 별도로 안 넣어도 됩니다.)
 
 ## 폴더 구성
 
@@ -158,7 +160,7 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 07_Nokia5110_display_KR.md
+    └── readme_kr.md
 ```
 
 ## Build & Run
@@ -181,7 +183,7 @@ Nokia 5110 initialized and "Hello World!" / "Nokia 5110" written
 ## 관찰 포인트
 
 - **Vop(대비) 값이 이 랩에서 가장 조정이 필요할 가능성이 높은 부분**입니다 — 물리 트리머가 없는 대신 소프트웨어 값이라, 화면이 안 보인다고 배선부터 의심하기 전에 `PCD8544_SET_VOP_DEFAULT` 값부터 몇 가지 바꿔보는 걸 권장합니다
-- MISO가 없는 write-only 디스플레이라는 점에서 3번 랩(SPI 루프백)과 좋은 대조가 됩니다 — 루프백 테스트로 검증했던 "버스 자체가 정상"이라는 전제 위에, 이번엔 실제 장치의 명령 프로토콜을 얹는 실습입니다
+- MISO가 없는 write-only 디스플레이라는 점에서 4번 랩(SPI 루프백)과 좋은 대조가 됩니다 — 루프백 테스트로 검증했던 "버스 자체가 정상"이라는 전제 위에, 이번엔 실제 장치의 명령 프로토콜을 얹는 실습입니다
 - `reset-gpios`/`dc-gpios`처럼 Zephyr 공식 바인딩과 이름을 맞추는 습관은, 나중에 이 커스텀 드라이버를 진짜 Zephyr Display 드라이버로 옮길 때 devicetree를 거의 그대로 재사용할 수 있게 해줍니다
 
 ## 트러블슈팅
@@ -193,9 +195,9 @@ Nokia 5110 initialized and "Hello World!" / "Nokia 5110" written
 | 화면이 전부 까맣게 나옴/체커보드 패턴 | Vop가 너무 높음(대비 과함) — 값을 낮춰보기, 또는 RST 시퀀스가 제대로 안 됐는지 확인 |
 | 시리얼에 init 실패 로그, SPI write 에러 | 배선(특히 CE/CS, DIN/MOSI, CLK) 재확인. `west build -t devicetree`로 `&spi2` 노드 병합 확인 |
 | 글자가 알아볼 수 없이 깨짐/위치가 이상함 | `fb_draw_string`의 6픽셀 간격 로직, 또는 페이지(page) 인자가 0~5 범위인지 확인 |
-| 컴파일 에러 (`SPIM2_MOSI_GPIO11` 등을 못 찾음) | 1번/3번 랩과 동일한 이슈 — `west build -t devicetree`로 실제 사용 가능한 핀먹스 매크로 확인 |
+| 컴파일 에러 (`SPIM2_MOSI_GPIO11` 등을 못 찾음) | 1번/4번 랩과 동일한 이슈 — `west build -t devicetree`로 실제 사용 가능한 핀먹스 매크로 확인 |
 | `'zds,pcd8544' compatible not found` | `CMakeLists.txt`의 `list(APPEND DTS_ROOT ...)`가 `find_package(Zephyr...)` 이전에 있는지 확인 |
 
 ## 다음
 
-이후 실습에서는 SHARP 메모리 LCD, ST7735 컬러 TFT 등 다른 디스플레이 컨트롤러로 계속 확장할 수 있습니다 — 이번 랩의 raw SPI + 커스텀 바인딩 패턴을 그대로 재사용하면 됩니다.
+다음 실습은 **8번 랩 (`08_TFT_ST7735`, ST7735 컬러 TFT)**입니다 — 이번 랩에서 다진 raw SPI + 커스텀 바인딩 패턴을 그대로 재사용해서, 흑백 84x48 화면에서 컬러 TFT로 확장합니다.

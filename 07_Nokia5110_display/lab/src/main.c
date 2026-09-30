@@ -8,7 +8,7 @@
  * Extra: RST=GPIO4 (active low), DC=GPIO5 (0=command, 1=data)
  *
  * The Nokia 5110 module has no MISO line at all (it's a write-only
- * display), so unlike Lab 03's loopback test, this overlay only wires
+ * display), so unlike Lab 04's loopback test, this overlay only wires
  * up MOSI + SCLK + CS - there's nothing to read back.
  *
  * SPI clock is deliberately conservative here (1 MHz, well under the
@@ -25,7 +25,7 @@
  * GPIOs from an earlier, unrelated test and not re-checked against
  * this lab's wiring table) - a reminder that with SPI, a write "ret
  * == 0" only means the bytes went out on the wire, never that the
- * chip on the other end actually received them (see Lab 03).
+ * chip on the other end actually received them (see Lab 04).
  */
 
 #include <zephyr/kernel.h>
@@ -65,7 +65,7 @@
 #define PCD8544_SET_VOP_DEFAULT 0xB0
 
 static const struct spi_dt_spec pcd8544_spi = SPI_DT_SPEC_GET(
-    PCD8544_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER, 0);
+    PCD8544_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER);
 static const struct gpio_dt_spec pcd8544_reset =
     GPIO_DT_SPEC_GET(PCD8544_NODE, reset_gpios);
 static const struct gpio_dt_spec pcd8544_dc =

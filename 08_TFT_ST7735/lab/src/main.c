@@ -83,7 +83,7 @@
 #define COLOR_CYAN    RGB565(0, 255, 255)
 
 static const struct spi_dt_spec st7735_spi = SPI_DT_SPEC_GET(
-    ST7735_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER, 0);
+    ST7735_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER);
 static const struct gpio_dt_spec st7735_reset =
     GPIO_DT_SPEC_GET(ST7735_NODE, reset_gpios);
 static const struct gpio_dt_spec st7735_dc =

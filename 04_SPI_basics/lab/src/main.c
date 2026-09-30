@@ -6,7 +6,7 @@
 #define LOOPBACK_NODE DT_NODELABEL(loopback_dev)
 
 static const struct spi_dt_spec loopback_spi = SPI_DT_SPEC_GET(
-    LOOPBACK_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER, 0);
+    LOOPBACK_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER);
 
 static bool spi_loopback_test(void) {
     uint8_t tx_data[8] = {0x01, 0x02, 0x03, 0x04, 0xAA, 0x55, 0xFF, 0x00};

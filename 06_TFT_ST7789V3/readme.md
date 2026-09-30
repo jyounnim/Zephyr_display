@@ -1,5 +1,7 @@
 # Lab 06: TFT ST7789V3 (1.69" 240x280, raw SPI)
 
+**[한국어 버전](readme_kr.md)**
+
 ## 1. Overview
 
 Board: **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`). Framework: **Zephyr RTOS**.
@@ -94,16 +96,16 @@ The panel should show `Hello World!` near the top, with red/green/blue/yellow/cy
 
 ## 7. Notes
 
-This lab has been confirmed working on real hardware (ESP32-S3-DevKitC-1 + a 1.69" 240x280 ST7789V3 module). Symptoms that can vary by the specific module in hand — such as a shifted image or unexpected colors — are covered in the separate troubleshooting doc (`06_TFT_ST7789V3_TROUBLESHOOTING_EN.md`).
+This lab has been confirmed working on real hardware (ESP32-S3-DevKitC-1 + a 1.69" 240x280 ST7789V3 module). Symptoms that can vary by the specific module in hand — such as a shifted image or unexpected colors — are covered in the separate troubleshooting doc (`troubleshooting_en.md`).
 
 ## 8. File Layout
 
 ```
 06_TFT_ST7789V3/
-├── 06_TFT_ST7789V3_KR.md
-├── 06_TFT_ST7789V3_EN.md
-├── 06_TFT_ST7789V3_TROUBLESHOOTING_KR.md
-├── 06_TFT_ST7789V3_TROUBLESHOOTING_EN.md
+├── readme_kr.md
+├── readme.md
+├── troubleshooting_kr.md
+├── troubleshooting_en.md
 └── lab/
     ├── CMakeLists.txt
     ├── README.rst

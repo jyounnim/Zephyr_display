@@ -1,14 +1,16 @@
 # 7. Nokia 5110 (PCD8544) Monochrome LCD — 84x48, raw SPI
 
+**[한국어 버전](readme_kr.md)**
+
 ## Overview
 
 Board: **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), framework: **Zephyr RTOS**.
 
 This lab drives the classic **PCD8544-controller 84x48 monochrome LCD** ("Nokia 5110" module, named after the old Nokia phone screen it came from) over raw SPI. Same house style as the rest of this series (SSD1306, the I2C LCD, the SPI loopback lab) - no Zephyr Display/CFB subsystem, just SPI/GPIO handled directly in application code.
 
-This module **has no MISO line at all** (it's a write-only display) - so unlike Lab 3's loopback test, this overlay only needs MOSI/SCLK/CS.
+This module **has no MISO line at all** (it's a write-only display) - so unlike Lab 4's loopback test, this overlay only needs MOSI/SCLK/CS.
 
-> ✅ **Hardware-verified**: confirmed working on real ESP32-S3-DevKitC-1 + Nokia 5110 hardware, with the default Vop (`0xB0`) displaying correctly as-is - no contrast tuning needed. The one real issue hit during bring-up wasn't the code or the overlay - it was **wiring**: the board was still wired for an earlier, unrelated test on different GPIOs, and that old wiring got reused without checking it against this lab's wiring table (RST=GPIO4, DC=GPIO5, CE=GPIO10, DIN=GPIO11, CLK=GPIO12). Worth remembering for the next SPI display lab: unlike I2C, SPI has no ACK/NACK (see Lab 3), so wrong wiring never shows up as a serial error - it just quietly shows nothing on screen.
+> ✅ **Hardware-verified**: confirmed working on real ESP32-S3-DevKitC-1 + Nokia 5110 hardware, with the default Vop (`0xB0`) displaying correctly as-is - no contrast tuning needed. The one real issue hit during bring-up wasn't the code or the overlay - it was **wiring**: the board was still wired for an earlier, unrelated test on different GPIOs, and that old wiring got reused without checking it against this lab's wiring table (RST=GPIO4, DC=GPIO5, CE=GPIO10, DIN=GPIO11, CLK=GPIO12). Worth remembering for the next SPI display lab: unlike I2C, SPI has no ACK/NACK (see Lab 4), so wrong wiring never shows up as a serial error - it just quietly shows nothing on screen.
 
 ## Requirements
 
@@ -129,7 +131,7 @@ project(nokia5110_lab)
 target_sources(app PRIVATE src/main.c)
 ```
 
-(Same as Lab 3: since a custom binding is used, `DTS_ROOT` must be extended before `find_package(Zephyr...)`.)
+(Same as Lab 4: since a custom binding is used, `DTS_ROOT` must be extended before `find_package(Zephyr...)`.)
 
 ## prj.conf
 
@@ -139,7 +141,7 @@ CONFIG_GPIO=y
 CONFIG_PRINTK=y
 ```
 
-(As confirmed in Lab 3, `CONFIG_ESP32_SPIM` auto-enables once the devicetree's SPI node is turned on, so it doesn't need to be added explicitly.)
+(As confirmed in Lab 4, `CONFIG_ESP32_SPIM` auto-enables once the devicetree's SPI node is turned on, so it doesn't need to be added explicitly.)
 
 ## File Layout
 
@@ -158,7 +160,7 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 07_Nokia5110_display_EN.md
+    └── readme.md
 ```
 
 ## Build & Run
@@ -181,7 +183,7 @@ The screen's first page (top) should show `Hello World!`, and the second page `N
 ## Things to Notice
 
 - **The Vop (contrast) value is the part of this lab most likely to need tuning** - since there's no physical trimmer, before suspecting the wiring if the screen looks blank, try a few different `PCD8544_SET_VOP_DEFAULT` values first.
-- Being a write-only display with no MISO line makes a nice contrast with Lab 3 (SPI loopback) - that lab verified "the bus itself is sound," and this one builds a real device's command protocol on top of that assumption.
+- Being a write-only display with no MISO line makes a nice contrast with Lab 4 (SPI loopback) - that lab verified "the bus itself is sound," and this one builds a real device's command protocol on top of that assumption.
 - Matching property names to Zephyr's own official bindings (`reset-gpios`/`dc-gpios`) means this devicetree can largely be reused as-is if this custom driver is ever swapped out for a real Zephyr Display driver later.
 
 ## Troubleshooting
@@ -193,9 +195,9 @@ The screen's first page (top) should show `Hello World!`, and the second page `N
 | Screen goes fully black / a checkerboard pattern | Vop too high (too much contrast) - try lowering the value, or check that the RST sequence completed correctly |
 | Serial shows an init failure / SPI write error | Re-check the wiring (especially CE/CS, DIN/MOSI, CLK). Run `west build -t devicetree` to confirm the `&spi2` node merged correctly |
 | Characters are garbled or in the wrong place | Check the 6-pixel spacing logic in `fb_draw_string`, and that the page argument is within 0-5 |
-| Build error (can't find `SPIM2_MOSI_GPIO11` etc.) | Same issue as Labs 1 and 3 - use `west build -t devicetree` to see which pinmux macros are actually available |
+| Build error (can't find `SPIM2_MOSI_GPIO11` etc.) | Same issue as Labs 1 and 4 - use `west build -t devicetree` to see which pinmux macros are actually available |
 | `'zds,pcd8544' compatible not found` | Check that `CMakeLists.txt`'s `list(APPEND DTS_ROOT ...)` comes before `find_package(Zephyr...)` |
 
 ## Next
 
-Later labs can extend this same raw-SPI-plus-custom-binding pattern to other display controllers - a SHARP memory LCD, an ST7735 color TFT, and so on.
+The next lab is **Lab 8 (`08_TFT_ST7735`, a color TFT)** - it reuses this lab's raw-SPI-plus-custom-binding pattern, extending it from a monochrome 84x48 screen to a color TFT.

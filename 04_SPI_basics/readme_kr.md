@@ -1,8 +1,6 @@
-# 3. SPI 기초 개념 — 왜 "SPI 스캐너"는 없는가
+# 4. SPI 기초 개념 — 왜 "SPI 스캐너"는 없는가
 
-> **검토 노트**: 원본 파일명이 `04_SPI_basics_KR.md`로 올라왔지만, 문서 본문(제목의 "3.", 폴더 트리의 `03_SPI_basics/`, 8절의 "I2C 스캐너(1번)와 이 루프백 테스트(3번)", 마지막 절의 "4번 실습")이 전부 일관되게 이 랩을 **3번**으로 가리키고 있어서 파일명을 `03_SPI_basics_KR.md`로 맞췄습니다. Lab 01(I2C 스캐너) → Lab 02(I2C LCD) → 이 랩(Lab 03)으로 이어지는 순서와도 맞습니다.
->
-> 그 외에 폴더 구성에 나열되어 있지만 본문에 내용이 없던 `CMakeLists.txt`, `sample.yaml`을 채워 넣었고, 코드/오버레이/커스텀 바인딩은 Zephyr 공식 문서·소스로 교차 확인한 결과 그대로 두어도 되는 내용이라 손대지 않았습니다. 자세한 근거는 문서 맨 아래 "검토 결과 요약"에 정리했습니다.
+**[English version](readme.md)**
 
 ## 이 실습에서 배우는 것
 
@@ -40,7 +38,7 @@ MOSI(마스터가 보내는 선)와 MISO(마스터가 받는 선)를 **물리적
 
 ```
 Zephyr_display/
-└── 03_SPI_basics/
+└── 04_SPI_basics/
     ├── lab/
     │   ├── src/
     │   │   └── main.c
@@ -53,7 +51,8 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 03_SPI_basics_KR.md
+    ├── readme.md
+    └── readme_kr.md
 ```
 
 ## Devicetree Overlay
@@ -166,7 +165,7 @@ tests:
 #define LOOPBACK_NODE DT_NODELABEL(loopback_dev)
 
 static const struct spi_dt_spec loopback_spi = SPI_DT_SPEC_GET(
-    LOOPBACK_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER, 0);
+    LOOPBACK_NODE, SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_OP_MODE_MASTER);
 
 static bool spi_loopback_test(void) {
     uint8_t tx_data[8] = {0x01, 0x02, 0x03, 0x04, 0xAA, 0x55, 0xFF, 0x00};
@@ -228,12 +227,12 @@ int main(void) {
 ## 빌드 & 실행
 
 ```bash
-west build -p always -b esp32s3_devkitc/esp32s3/procpu 03_SPI_basics/lab
+west build -p always -b esp32s3_devkitc/esp32s3/procpu 04_SPI_basics/lab
 west flash
 west espressif monitor
 ```
 
-(PowerShell이면 `west build -p always -b esp32s3_devkitc/esp32s3/procpu .\03_SPI_basics\lab\` 형태로 경로만 바꿔주면 됩니다.)
+(PowerShell이면 `west build -p always -b esp32s3_devkitc/esp32s3/procpu .\04_SPI_basics\lab\` 형태로 경로만 바꿔주면 됩니다.)
 
 ## 실행 & 확인
 
@@ -249,7 +248,7 @@ PASS: received bytes match sent bytes - SPI peripheral, clock, and pin routing a
 ## 관찰 포인트
 
 - 이 테스트가 통과했다고 해서 "SPI로 아무 장치나 연결하면 다 될 것"이라는 뜻은 아닙니다 — **버스 자체(전기적 신호, 페리페럴 설정)가 정상**이라는 것만 확인된 겁니다. 실제 장치와의 통신은 그 장치의 프로토콜을 정확히 구현해야 합니다 (5~7번 실습에서 하게 될 일)
-- I2C 스캐너(1번)와 이 루프백 테스트(3번)를 나란히 놓고 비교해보면, **"두 프로토콜이 겉보기엔 비슷해 보여도(클럭+데이터), 설계 철학 자체가 다르다"**는 걸 실감할 수 있습니다 — I2C는 "버스 위의 여러 장치를 발견하는" 데 최적화되어 있고, SPI는 "이미 아는 장치와 빠르게 통신하는" 데 최적화되어 있습니다
+- I2C 스캐너(1번)와 이 루프백 테스트(4번)를 나란히 놓고 비교해보면, **"두 프로토콜이 겉보기엔 비슷해 보여도(클럭+데이터), 설계 철학 자체가 다르다"**는 걸 실감할 수 있습니다 — I2C는 "버스 위의 여러 장치를 발견하는" 데 최적화되어 있고, SPI는 "이미 아는 장치와 빠르게 통신하는" 데 최적화되어 있습니다
 - CS 라인을 여러 개 두면(오버레이의 `cs-gpios`에 여러 GPIO를 배열로 지정) 같은 SCK/MOSI/MISO를 공유하면서 여러 SPI 장치를 연결할 수 있습니다 — 이후 실습에서 여러 디스플레이를 동시에 연결하고 싶다면 이 방식을 씁니다
 
 ## 트러블슈팅
@@ -264,7 +263,7 @@ PASS: received bytes match sent bytes - SPI peripheral, clock, and pin routing a
 
 ## 다음
 
-4번 실습(`04_OLED_SSD1306_SPI`)에서 이번에 확인한 SPI 버스 위에 실제 OLED(SSD1306 SPI 모드)를 연결합니다.
+5번 실습(`05_OLED_SSD1306_SPI`)에서 이번에 확인한 SPI 버스 위에 실제 OLED(SSD1306 SPI 모드)를 연결합니다.
 
 ---
 

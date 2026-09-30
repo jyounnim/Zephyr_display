@@ -6,7 +6,7 @@
  *
  * Requires a 7-pin SPI variant of the SSD1306 module (VCC, GND, SCK,
  * SDA/MOSI, RES, DC, CS) - the common 4-pin I2C-only module used in
- * Lab 2 will NOT work here.
+ * Lab 3 will NOT work here.
  */
 
 &pinctrl {

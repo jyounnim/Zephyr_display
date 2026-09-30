@@ -1,5 +1,7 @@
 # Lab 03: OLED SSD1306 (I2C 모드, 주소 자동 감지)
 
+**[English version](readme.md)**
+
 ## 1. 개요
 
 보드는 **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), 프레임워크는 **Zephyr RTOS**를 사용합니다.
@@ -179,8 +181,8 @@ OLED 화면에는 1번째 줄에 `Hello World!`, 3번째 줄(page 2)에 `Addr 0x
 
 ```
 03_OLED_SSD1306_I2C/
-├── 03_OLED_SSD1306_I2C_KR.md
-├── 03_OLED_SSD1306_I2C_EN.md
+├── readme_kr.md
+├── readme.md
 └── lab/
     ├── CMakeLists.txt
     ├── README.rst

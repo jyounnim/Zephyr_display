@@ -1,5 +1,7 @@
 # Lab 06: TFT ST7789V3 (1.69인치 240x280, raw SPI)
 
+**[English version](readme.md)**
+
 ## 1. 개요
 
 보드는 **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), 프레임워크는 **Zephyr RTOS**를 사용합니다.
@@ -94,16 +96,16 @@ ST7789V3 initialized, color bars + "Hello World!" drawn
 
 ## 7. 참고
 
-이 랩은 실기(ESP32-S3-DevKitC-1 + ST7789V3 1.69인치 240x280 모듈)에서 정상 동작이 확인되었습니다. 화면이 밀리거나 색이 이상하게 나오는 등, 사용 중인 모듈 개체에 따라 증상이 다를 수 있는 부분은 별도 트러블슈팅 문서(`06_TFT_ST7789V3_TROUBLESHOOTING_KR.md`)를 참고해 주세요.
+이 랩은 실기(ESP32-S3-DevKitC-1 + ST7789V3 1.69인치 240x280 모듈)에서 정상 동작이 확인되었습니다. 화면이 밀리거나 색이 이상하게 나오는 등, 사용 중인 모듈 개체에 따라 증상이 다를 수 있는 부분은 별도 트러블슈팅 문서(`troubleshooting_kr.md`)를 참고해 주세요.
 
 ## 8. 파일 구성
 
 ```
 06_TFT_ST7789V3/
-├── 06_TFT_ST7789V3_KR.md
-├── 06_TFT_ST7789V3_EN.md
-├── 06_TFT_ST7789V3_TROUBLESHOOTING_KR.md
-├── 06_TFT_ST7789V3_TROUBLESHOOTING_EN.md
+├── readme_kr.md
+├── readme.md
+├── troubleshooting_kr.md
+├── troubleshooting_en.md
 └── lab/
     ├── CMakeLists.txt
     ├── README.rst

@@ -1,5 +1,8 @@
 # Lab 02: I2C LCD (PCF8574 + HD44780, "LiquidCrystal-I2C" 스타일)
 
+**[English version](readme.md)**
+
+
 ## 1. 개요
 
 보드는 **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), 프레임워크는 **Zephyr RTOS**를 사용합니다.
@@ -119,7 +122,8 @@ LCD 화면에는 1번째 줄에 `Hello World!`, 2번째 줄에 `ESP32-S3 Zephyr`
 
 ```
 02_I2C_LCD_LAB/
-├── 02_I2C_LCD_LAB_KR.md
+├── readme_kr.md
+├── readme.md
 └── lab/
     ├── CMakeLists.txt
     ├── README.rst

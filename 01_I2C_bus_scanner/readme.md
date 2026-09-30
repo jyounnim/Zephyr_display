@@ -1,11 +1,13 @@
 # 1. I2C Bus Scanner — Zephyr (ESP32-S3)
 
+**[한국어 버전](readme_kr.md)**
+
 An example that scans I2C0 once from a dedicated thread at boot, finds
 every device that answers with an ACK, and prints the result as an
 `i2cdetect`-style grid. Use it to check which address a new sensor or
 display module shows up at once it's wired to the board. It's reused
-throughout the `Zephyr_display` project - in Lab 2 (OLED over I2C) and
-later in the SHARP/Nokia/ST7735 labs - as a quick wiring check.
+throughout the `Zephyr_display` project - in Lab 3 (OLED over I2C) and
+later in the Nokia5110/ST7735 labs - as a quick wiring check.
 
 ## File Layout
 
@@ -20,7 +22,8 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 01_I2C_bus_scanner_EN.md     # this document
+    ├── readme.md                     # this document
+    └── readme_kr.md                  # Korean version
 ```
 
 ## I2C Bus Concepts
@@ -131,7 +134,7 @@ Scanning I2C0...
 Scan complete on I2C0: 1 device(s) found
 ```
 
-(The example above is with a single SSD1306 OLED wired at 0x3C - Lab 2 is where you'll actually get into this state.)
+(The example above is with a single SSD1306 OLED wired at 0x3C - Lab 3 is where you'll actually get into this state.)
 
 ## Things to Notice
 
@@ -150,4 +153,4 @@ Scan complete on I2C0: 1 device(s) found
 
 ## Next
 
-Lab 2 (`02_OLED_SSD1306_I2C`) puts a real OLED display on top of the wiring this scanner confirmed.
+Lab 3 (`03_OLED_SSD1306_I2C`) puts a real OLED display on top of the wiring this scanner confirmed.

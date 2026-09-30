@@ -1,5 +1,7 @@
 # 8. ST7735 128x160 Color TFT — raw SPI
 
+**[한국어 버전](readme_kr.md)**
+
 ## Overview
 
 Board: **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), framework: **Zephyr RTOS**.
@@ -148,7 +150,7 @@ project(st7735_tft_lab)
 target_sources(app PRIVATE src/main.c)
 ```
 
-(Same as Labs 3 and 7: since a custom binding is used, `DTS_ROOT` must be extended before `find_package(Zephyr...)`.)
+(Same as Labs 4 and 7: since a custom binding is used, `DTS_ROOT` must be extended before `find_package(Zephyr...)`.)
 
 ## prj.conf
 
@@ -175,7 +177,8 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 08_TFT_ST7735_EN.md
+    ├── readme.md
+    └── readme_kr.md
 ```
 
 ## Build & Run
@@ -206,7 +209,7 @@ The screen should show white `Hello World!` and cyan `ST7735 TFT` on a black bac
 | Symptom | Cause / Fix |
 |---|---|
 | `SPI device not ready` / `RST/DC GPIO not ready` | The overlay isn't applied - check that the filename matches the board target |
-| Screen stays completely white/black/unresponsive | Re-check RST/DC wiring. As with Lab 3/7, SPI has no ACK, so wrong wiring shows up exactly like this - silently, with no error |
+| Screen stays completely white/black/unresponsive | Re-check RST/DC wiring. As with Lab 4/7, SPI has no ACK, so wrong wiring shows up exactly like this - silently, with no error |
 | Color bars come out with swapped colors (e.g. "R" looks blue) | MADCTL's BGR/RGB bit doesn't match this module - try toggling the BGR bit in `init_seq[]`'s MADCTL (`0x36`) argument (`0xC8`) |
 | Image is cropped on one edge with a margin on the other | Tab-color offset mismatch - try setting `ST7735_XSTART`/`ST7735_YSTART` to 0 (typical for red/black tab modules) |
 | Image appears mirrored or upside down | MADCTL's MX/MY bits - adjust the top two bits of `0xC8` |
@@ -214,6 +217,8 @@ The screen should show white `Hello World!` and cyan `ST7735 TFT` on a black bac
 | Build error (can't find `SPIM2_MOSI_GPIO13` etc.) | Same issue as the earlier SPI labs - use `west build -t devicetree` to see which pinmux macros are actually available |
 | `'zds,st7735' compatible not found` | Check that `CMakeLists.txt`'s `list(APPEND DTS_ROOT ...)` comes before `find_package(Zephyr...)` |
 
-## Next
+## Wrap-up
 
-By this lab, the raw-SPI-plus-custom-binding pattern has scaled from a monochrome character LCD (Lab 02, I2C) to a monochrome graphic LCD (Lab 07, SPI) to a color TFT (Lab 08, SPI). Later labs can carry this pattern over to sensors or motor control, or keep extending it to displays like the ST7789 (a higher-resolution cousin controller).
+This lab wraps up the `zephyr_display` series. Starting from the I2C bus scanner (Lab 01) and a character LCD (Lab 02), through an I2C OLED (Lab 03), SPI basics (Lab 04), an SPI OLED (Lab 05), a color TFT with the ST7789V3 (Lab 06), and the Nokia 5110 graphic LCD (Lab 07), to this ST7735 color TFT (Lab 08) - the series built up the same core pattern across eight labs: initializing and driving a range of display controllers directly over raw I2C/SPI.
+
+The "SPI has no ACK" lesson first established in Lab 04 showed up again as the root cause of wiring issues in Lab 05, 07, and 08, and the controller-specific quirks - init sequences, offsets, MADCTL values - across these labs are a good illustration of why cross-checking against a reference library byte-for-byte matters. That's all 8 labs of the `zephyr_display` series.

@@ -1,5 +1,7 @@
 # Lab 06 Troubleshooting: TFT ST7789V3
 
+**[한국어 버전](troubleshooting_kr.md)**
+
 This lab has been confirmed working on real hardware. Depending on the specific module or wiring in hand, though, you might still run into one of the symptoms below.
 
 ## Screen stays completely dark (nothing but black)

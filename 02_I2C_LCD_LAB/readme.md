@@ -1,5 +1,8 @@
 # Lab 02: I2C LCD (PCF8574 + HD44780, "LiquidCrystal-I2C" style)
 
+**[한국어 버전](readme_kr.md)**
+
+
 ## 1. Overview
 
 Board: **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), framework: **Zephyr RTOS**.
@@ -119,8 +122,8 @@ The LCD itself should show `Hello World!` on the first line and `ESP32-S3 Zephyr
 
 ```
 02_I2C_LCD_LAB/
-├── 02_I2C_LCD_LAB_EN.md
-├── 02_I2C_LCD_LAB_KR.md
+├── readme.md
+├── readme_kr.md
 └── lab/
     ├── CMakeLists.txt
     ├── README.rst

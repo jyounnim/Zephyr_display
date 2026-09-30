@@ -1,5 +1,7 @@
 # Lab 03: OLED SSD1306 (I2C mode, address auto-detect)
 
+**[한국어 버전](readme_kr.md)**
+
 ## 1. Overview
 
 Board: **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), framework: **Zephyr RTOS**.
@@ -179,8 +181,8 @@ The OLED itself should show `Hello World!` on the first line and `Addr 0x3C` (or
 
 ```
 03_OLED_SSD1306_I2C/
-├── 03_OLED_SSD1306_I2C_KR.md
-├── 03_OLED_SSD1306_I2C_EN.md
+├── readme_kr.md
+├── readme.md
 └── lab/
     ├── CMakeLists.txt
     ├── README.rst

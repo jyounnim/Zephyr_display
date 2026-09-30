@@ -1,5 +1,7 @@
 # 8. ST7735 128x160 컬러 TFT — raw SPI
 
+**[English version](readme.md)**
+
 ## 개요
 
 보드는 **ESP32-S3-DevKitC-1** (`esp32s3_devkitc/esp32s3/procpu`), 프레임워크는 **Zephyr RTOS**입니다.
@@ -148,7 +150,7 @@ project(st7735_tft_lab)
 target_sources(app PRIVATE src/main.c)
 ```
 
-(Lab 03/07과 동일하게, 커스텀 바인딩을 쓰기 때문에 `DTS_ROOT`를 `find_package(Zephyr...)`보다 먼저 추가해야 합니다.)
+(Lab 04/07과 동일하게, 커스텀 바인딩을 쓰기 때문에 `DTS_ROOT`를 `find_package(Zephyr...)`보다 먼저 추가해야 합니다.)
 
 ## prj.conf
 
@@ -175,7 +177,8 @@ Zephyr_display/
     │   ├── CMakeLists.txt
     │   ├── prj.conf
     │   └── sample.yaml
-    └── 08_TFT_ST7735_KR.md
+    ├── readme.md
+    └── readme_kr.md
 ```
 
 ## Build & Run
@@ -206,7 +209,7 @@ ST7735 initialized and demo screen (text + color bars) drawn
 | 증상 | 원인 / 해결 |
 |---|---|
 | `SPI device not ready` / `RST/DC GPIO not ready` | 오버레이 미적용 — 파일명이 board target과 일치하는지 확인 |
-| 화면이 완전히 하양/검정/무반응 | RST/DC 배선 재확인. SPI는 I2C와 달리 ACK가 없어서(Lab 03/07 참고) 배선이 틀려도 에러 없이 조용히 이렇게만 나타남 |
+| 화면이 완전히 하양/검정/무반응 | RST/DC 배선 재확인. SPI는 I2C와 달리 ACK가 없어서(Lab 04/07 참고) 배선이 틀려도 에러 없이 조용히 이렇게만 나타남 |
 | 색상 막대의 색이 서로 뒤바뀜(예: R이 파랗게 보임) | MADCTL의 BGR/RGB 비트가 이 모듈과 안 맞음 — `init_seq[]`의 MADCTL(`0x36`) 인자값(`0xC8`)에서 BGR 비트를 토글해보기 |
 | 이미지가 위/왼쪽으로 잘리거나 반대쪽에 여백이 생김 | 탭 색상 오프셋 불일치 — `ST7735_XSTART`/`ST7735_YSTART`를 0으로 바꿔보기 (red/black tab 계열) |
 | 화면이 좌우/상하 반전되어 보임 | MADCTL의 MX/MY 비트 문제 — `0xC8`의 상위 2비트(MY, MX)를 조정 |
@@ -214,6 +217,8 @@ ST7735 initialized and demo screen (text + color bars) drawn
 | 컴파일 에러 (`SPIM2_MOSI_GPIO13` 등을 못 찾음) | 이전 SPI 랩들과 동일한 이슈 — `west build -t devicetree`로 실제 사용 가능한 핀먹스 매크로 확인 |
 | `'zds,st7735' compatible not found` | `CMakeLists.txt`의 `list(APPEND DTS_ROOT ...)`가 `find_package(Zephyr...)` 이전에 있는지 확인 |
 
-## 다음
+## 마무리
 
-이 랩까지 오면서 raw SPI + 커스텀 바인딩으로 흑백 캐릭터 LCD(Lab 02, I2C) → 흑백 그래픽 LCD(Lab 07, SPI) → 컬러 TFT(Lab 08, SPI)까지 확장했습니다. 이후 실습에서는 이 패턴을 센서나 모터 제어로 옮겨가거나, ST7789(더 큰 해상도의 사촌 컨트롤러) 등으로 계속 확장할 수 있습니다.
+`zephyr_display` 시리즈는 이 실습으로 마무리됩니다. I2C 버스 스캐너(Lab 01)와 문자 LCD(Lab 02)로 시작해서, I2C 방식 OLED(Lab 03)와 SPI 기초(Lab 04), SPI 방식 OLED(Lab 05), 컬러 TFT ST7789V3(Lab 06), Nokia 5110 그래픽 LCD(Lab 07)를 거쳐, 이번 ST7735 컬러 TFT(Lab 08)까지 — raw I2C/SPI로 다양한 디스플레이 컨트롤러를 직접 초기화하고 구동하는 패턴을 여덟 개 실습에 걸쳐 확인했습니다.
+
+Lab 04에서 확인한 "SPI는 ACK가 없다"는 특성은 Lab 05, 07, 08에서도 배선 문제의 원인으로 똑같이 작용했고, 컨트롤러마다 다른 초기화 시퀀스·오프셋·MADCTL 값은 레퍼런스 라이브러리와 바이트 단위로 대조하는 습관이 왜 중요한지 보여줬습니다. 이것으로 `zephyr_display` 시리즈의 8개 실습을 모두 마쳤습니다.
